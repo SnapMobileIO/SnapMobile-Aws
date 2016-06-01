@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stylesForImage = stylesForImage;
 exports.validateExistence = validateExistence;
+exports.getFile = getFile;
 
 var _awsSdk = require('aws-sdk');
 
@@ -58,6 +59,30 @@ function validateExistence(s3Key) {
       }
 
       console.log('Confirmed existence for ' + s3Key + '.');
+      resolve(response);
+    });
+  });
+}
+
+function getFile(s3Key) {
+  return new _bluebird2.default(function (resolve, reject) {
+    if (!s3Key) {
+      reject(new Error('S3 key is required to get the file.'));
+    }
+
+    var params = {
+      Bucket: process.env.AWS_S3_FILES_BUCKET,
+      Key: s3Key
+    };
+    var s3 = new _awsSdk2.default.S3();
+    s3.getObject(params, function (err, response) {
+      if (err) {
+        var errMessage = new Error('Could not find S3 file ' + s3Key + '. ' + ('Error \'' + err.code + '\' with status \'' + err.statusCode + '\'.'));
+        console.error(errMessage);
+        reject(errMessage);
+      }
+
+      console.log('Found file for ' + s3Key + '.');
       resolve(response);
     });
   });
