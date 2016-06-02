@@ -64,6 +64,11 @@ function validateExistence(s3Key) {
   });
 }
 
+/**
+ * Returns a promise of a S3 key file
+ * @param  {String} s3Key S3 key of CSV
+ * @return {Promise<Response|Error>} Returns the success response of the s3.headObject API call or error
+ */
 function getFile(s3Key) {
   return new _bluebird2.default(function (resolve, reject) {
     if (!s3Key) {

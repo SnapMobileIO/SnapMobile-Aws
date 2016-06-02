@@ -51,6 +51,11 @@ export function validateExistence(s3Key) {
   });
 }
 
+/**
+ * Returns a promise of a S3 key file
+ * @param  {String} s3Key S3 key of CSV
+ * @return {Promise<Response|Error>} Returns the success response of the s3.headObject API call or error
+ */
 export function getFile(s3Key) {
   return new Promise((resolve, reject) => {
     if (!s3Key) {
